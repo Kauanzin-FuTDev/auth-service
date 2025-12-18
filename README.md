@@ -1,6 +1,6 @@
 # 🔐 auth-service
 
-Serviço de autenticação e autorização em .NET 7/8, organizado em camadas,
+Serviço de autenticação e autorização em .NET 8, organizado em camadas,
 com foco em login e segurança de API.  
 Este projeto é a base de um **auth microservice** para aplicações modernas.
 
@@ -35,5 +35,13 @@ Este serviço fornece:
 
 ---
 
-## 📁 Estrutura do Projeto
+## 🚀 Como rodar local
+
+### Pré-requisitos
+
+- [.NET SDK 7 ou 8](https://dotnet.microsoft.com/)
+- IDE: Visual Studio / Rider / VSCode
+
+
+---
 
