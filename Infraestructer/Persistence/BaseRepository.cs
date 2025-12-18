@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Domain.Repository;
 
-namespace Infraestructer.Persistence;
+namespace Infraestructe.Persistence;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class{
     public Task<bool> CreateAsync(T entity, CancellationToken cancellationToken)

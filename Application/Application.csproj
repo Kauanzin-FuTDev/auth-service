@@ -10,4 +10,12 @@
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Dtos\" />
+      <Folder Include="UseCases\AdminCases\AdminCommand\" />
+      <Folder Include="UseCases\AdminCases\AdminQuery\" />
+      <Folder Include="UseCases\UserCases\UserCommand\" />
+      <Folder Include="UseCases\UserCases\UserQuery\" />
+    </ItemGroup>
+
 </Project>
