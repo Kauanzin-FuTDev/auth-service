@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using Domain.Entities.Commun;
+
+namespace Domain.Entities;
 
 public class Role : BaseEntity
 {

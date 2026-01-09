@@ -1,11 +1,11 @@
-﻿namespace Domain;
+﻿namespace Domain.Entities.Commun;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public DateTime? SuspendAt { get; set; }
     public string? SuspensionReason { get;  set; }
-    protected bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 }

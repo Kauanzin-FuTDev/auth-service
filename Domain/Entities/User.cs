@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions;
+﻿using Domain.Entities.Commun;
+using Domain.Exceptions;
 
 namespace Domain.Entities;
 
@@ -99,6 +100,21 @@ public class User : BaseEntity
         IsActive = true;
         UpdatedAt = DateTime.Now;
     }
+    
+    public void AddRole(Role role)
+    {
+        if (_roles.Any(r => r.Name == role.Name))
+            return;
+
+        _roles.Add(role);
+    }
+
+    public bool HasRole(Role role)
+    {
+        return _roles.Any(r => r.Name == role.Name);
+    }
+
+    
     public void SuspendUser(string? reason)
     {
         if (string.IsNullOrWhiteSpace(reason))
