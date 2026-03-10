@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     {
         
         base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         
         //padronixacao de tabela
     
@@ -47,7 +48,7 @@ public class AppDbContext : DbContext
                         clrType == typeof(DateOnly) || clrType == typeof(DateOnly?) ? "dt" :
                         clrType == typeof(int) || clrType == typeof(int?) ? "i" :
                         clrType == typeof(Guid) || clrType == typeof(Guid?) ? "s" :
-                        clrType == typeof(bool) || clrType == typeof(bool?) ? "i" :
+                        clrType == typeof(bool) || clrType == typeof(bool?) ? "b" :
                         clrType == typeof(decimal) || clrType == typeof(decimal?) ? "d" :
                         clrType == typeof(double) || clrType == typeof(double?) ? "d" :
                         clrType == typeof(float) || clrType == typeof(float?) ? "d" :

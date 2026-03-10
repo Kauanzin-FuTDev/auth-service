@@ -8,7 +8,7 @@ public class User : BaseEntity
     #region Propreties
 
     public string Name { get; private set; }
-    public int PhoneNumber { get; private set; }
+    public string PhoneNumber { get; private set; }
     public string Address { get; private set; }
     public string CPF { get; private set; }
     public bool Gender  { get; private set; }
@@ -43,7 +43,7 @@ public class User : BaseEntity
     #endregion
 
     #region Methods
-    public static User CreateUser(string name, string email, string password, List<Role> roles, DateTime age, int phoneNumber, string address,
+    public static User CreateUser(string name, string email, string password, List<Role> roles, DateTime age, string phoneNumber, string address,
         string cpf, bool gender)
     {
         
@@ -82,7 +82,7 @@ public class User : BaseEntity
         string email,
         string password,
         DateTime age,
-        int phoneNumber,
+        string phoneNumber,
         string address,
         string cpf,
         bool gender)

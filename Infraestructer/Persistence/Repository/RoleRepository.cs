@@ -7,8 +7,10 @@ namespace Infraestructer.Persistence.Repository;
 
 public class RoleRepository : BaseRepository<Role>, IRoleRepository
 {
-    protected RoleRepository(AppDbContext context) : base(context)
-    {
+    private readonly AppDbContext _context;
+    public RoleRepository(AppDbContext context) : base(context)
+    {        
+        _context = context;
     }
 
     public Task<Role?> GetByNameAsync(string name, CancellationToken cancellationToken)

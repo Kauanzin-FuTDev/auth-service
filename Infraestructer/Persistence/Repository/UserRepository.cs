@@ -8,8 +8,12 @@ namespace Infraestructer.Persistence.Repository;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
 {   
-    
-    public UserRepository(AppDbContext context) : base(context){}
+    private readonly AppDbContext _context;
+
+    public UserRepository(AppDbContext context) : base(context)
+    {
+        _context = context;
+    }
     
     public async Task<User?> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
