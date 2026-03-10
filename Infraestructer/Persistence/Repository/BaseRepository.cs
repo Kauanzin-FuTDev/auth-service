@@ -1,73 +1,58 @@
 ﻿using System.Linq.Expressions;
 using Domain.Repository;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using Infraestructer.Context;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Infraestructer.Persistence.Repository;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class{
     
-    protected readonly IMongoCollection<T> _collection;
+    protected readonly AppDbContext _context;
 
-    protected BaseRepository(AppDbContext context, string collectionName)
+    protected BaseRepository(AppDbContext context)
     {
-        _collection = context.Database.GetCollection<T>(collectionName);
+        _context = context;
     }
     
     public async Task<bool> CreateAsync(T entity, CancellationToken cancellationToken)
     {
-        await _collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
-        return true;
+        await _context.Set<T>().AddAsync(entity, cancellationToken);
+        return await _context.SaveChangesAsync(cancellationToken) > 0;
     }
 
     public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _collection
-            .Find(FilterDefinition<T>.Empty)
-            .ToListAsync(cancellationToken);
+        return await _context.Set<T>().ToListAsync(cancellationToken);
     }
 
     public async Task<List<T>> GetAllByFilter(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
     {
-        return await _collection
-            .Find(predicate)
-            .ToListAsync(cancellationToken);
+        return await _context.Set<T>().Where(predicate).ToListAsync(cancellationToken);
     }
 
     public async Task<T?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        var objectId = new ObjectId(id);
-
-        var filter = Builders<T>.Filter.Eq("_id", objectId);
-
-        return await _collection
-            .Find(filter)
-            .FirstOrDefaultAsync(cancellationToken);
+        return await _context.Set<T>().FindAsync(id, cancellationToken);
         
     }
     
     public async Task<bool> UpdateAsync(string id,T entity, CancellationToken cancellationToken)
     {
-        var objectId = new ObjectId(id);
-
-        var result = await _collection.ReplaceOneAsync(
-            Builders<T>.Filter.Eq("_id", objectId),
-            entity,
-            cancellationToken: cancellationToken
-        );
-
-        return result.ModifiedCount > 0;
+        var entityToUpdate = await _context.Set<T>().FindAsync(id, cancellationToken);
+        
+        _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+        return await _context.SaveChangesAsync(cancellationToken) > 0;
     }
 
+   
+    /*
+     Ver a regra de negocio
     public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken)
     {
-        var objectId = new ObjectId(id);
+       
 
-        var result = await _collection.DeleteOneAsync(
-            Builders<T>.Filter.Eq("_id", objectId),
-            cancellationToken
-        );
-
-        return result.DeletedCount > 0;
+       
     }
+    */
 }

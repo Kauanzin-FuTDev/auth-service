@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces;
-using Application.services;
-using Infraestructer.Persistence;
+using Domain.Repository;
+using Infraestructer.Context;
+using Infraestructer.Persistence.Repository;
 using Infraestructer.Services.AuthService;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,12 +13,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,  IConfiguration configuration)
     {
-        var mongoSettings = configuration.GetSection("MongoSettings").Get<MongoSettings>();
-        services.AddSingleton(mongoSettings);
+        var connectionString = configuration.GetConnectionString("Postgres");
         
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(connectionString ?? throw new InvalidOperationException("Connection string 'Postgres' not found.")));
         
-        // Injeção do serviço de Token
+        // Injeção do serviços
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         
 
         return services;
